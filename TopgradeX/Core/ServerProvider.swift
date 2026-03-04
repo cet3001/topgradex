@@ -21,7 +21,13 @@ final class ServerProvider: UpdateProvider {
         var items: [UpdateItem] = []
 
         for profile in profiles {
-            let command = #"ssh \#(profile.host) "\#(profile.checkCommand)""#
+            let sshBase: String
+            if let port = profile.port {
+                sshBase = #"ssh -p \#(port) \#(profile.host)"#
+            } else {
+                sshBase = #"ssh \#(profile.host)"#
+            }
+            let command = #"\#(sshBase) "\#(profile.checkCommand)""#
             let result = await runner.runShell(command)
 
             if result.exitCode != 0 {
@@ -56,7 +62,13 @@ final class ServerProvider: UpdateProvider {
         for item in items where item.selected {
             guard let profile = profiles.first(where: { $0.name == item.name }) else { continue }
 
-            let command = #"ssh \#(profile.host) "\#(profile.updateCommand)""#
+            let sshBase: String
+            if let port = profile.port {
+                sshBase = #"ssh -p \#(port) \#(profile.host)"#
+            } else {
+                sshBase = #"ssh \#(profile.host)"#
+            }
+            let command = #"\#(sshBase) "\#(profile.updateCommand)""#
             let result = await runner.runShell(command)
             if result.exitCode != 0 {
                 let output = result.stderr.isEmpty ? result.stdout : result.stderr

@@ -59,7 +59,7 @@ struct OnboardingView: View {
             Text("Welcome to TopgradeX")
                 .font(.title2.bold())
 
-            Text("A cozy control center for keeping your Mac and dev tools fresh, right from the menu bar.")
+            Text("TopgradeX keeps your Mac, developer tools, and servers up to date from one menu bar.")
                 .font(.body)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
@@ -70,12 +70,13 @@ struct OnboardingView: View {
 
     private var permissionsPage: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("How it works")
+            Text("What we keep fresh")
                 .font(.title2.bold())
 
             VStack(alignment: .leading, spacing: 8) {
-                bullet("Checks tools like Homebrew using safe, read‑only commands at first.")
-                bullet("Lets you review what will be updated before anything changes.")
+                bullet("Homebrew, Mac App Store, npm and other developer tools.")
+                bullet("Optional: MacPorts, Nix, pip, and Ruby for advanced setups.")
+                bullet("Servers over SSH, using your existing keys and ssh-agent.")
             }
             .font(.body)
             .foregroundColor(.secondary)
@@ -93,14 +94,18 @@ struct OnboardingView: View {
 
     private var preferencesPage: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Auto checks")
+            Text("Automation & startup")
                 .font(.title2.bold())
 
-            Text("TopgradeX can gently check for updates a couple of times a week so you do not have to remember.")
+            Text("TopgradeX runs quiet checks in the background so updates are ready when you are.")
                 .font(.body)
                 .foregroundColor(.secondary)
 
-            Toggle("Auto check twice per week", isOn: $autoCheckEnabled)
+            Text("It starts at login by default, and you can turn this off any time in Settings.")
+                .font(.body)
+                .foregroundColor(.secondary)
+
+            Toggle("Auto check for updates", isOn: $autoCheckEnabled)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.vertical, 8)

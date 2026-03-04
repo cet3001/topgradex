@@ -68,16 +68,31 @@ struct ContentView: View {
                             .background(item.statusColor.opacity(0.15))
                             .foregroundColor(item.statusColor)
                             .clipShape(Capsule())
+                        Button {
+                            selectedStatus = item
+                            isShowingDetail = true
+                        } label: {
+                            Image(systemName: "slider.horizontal.3")
+                                .foregroundColor(.secondary)
+                                .help("Manage updates for \(item.name)")
+                        }
+                        .buttonStyle(.borderless)
                     }
                     .contentShape(Rectangle())
                     .onTapGesture {
                         selectedStatus = item
                         isShowingDetail = true
                     }
+                    .contextMenu {
+                        Button("Manage updates…") {
+                            selectedStatus = item
+                            isShowingDetail = true
+                        }
+                    }
                 }
                 .frame(maxHeight: 280)
 
-                Toggle("Auto check twice per week", isOn: $viewModel.autoCheckEnabled)
+                Toggle("Auto check for updates", isOn: $viewModel.autoCheckEnabled)
 
                 SettingsLink {
                     HStack {

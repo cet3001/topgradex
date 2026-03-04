@@ -20,7 +20,6 @@
 		A10000000000000000000011 /* MasProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000011 /* MasProvider.swift */; };
 		A10000000000000000000012 /* NpmProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000012 /* NpmProvider.swift */; };
 		A10000000000000000000013 /* PipProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000013 /* PipProvider.swift */; };
-		A10000000000000000000014 /* GemProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000014 /* GemProvider.swift */; };
 		A10000000000000000000015 /* ServerProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000015 /* ServerProfile.swift */; };
 		A10000000000000000000016 /* ServerProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000016 /* ServerProvider.swift */; };
 		A10000000000000000000017 /* MacPortsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000017 /* MacPortsProvider.swift */; };
@@ -43,7 +42,6 @@
 		A20000000000000000000011 /* MasProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasProvider.swift; sourceTree = "<group>"; };
 		A20000000000000000000012 /* NpmProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NpmProvider.swift; sourceTree = "<group>"; };
 		A20000000000000000000013 /* PipProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipProvider.swift; sourceTree = "<group>"; };
-		A20000000000000000000014 /* GemProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GemProvider.swift; sourceTree = "<group>"; };
 		A20000000000000000000015 /* ServerProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerProfile.swift; sourceTree = "<group>"; };
 		A20000000000000000000016 /* ServerProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerProvider.swift; sourceTree = "<group>"; };
 		A20000000000000000000017 /* MacPortsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacPortsProvider.swift; sourceTree = "<group>"; };
@@ -131,7 +129,6 @@
 				A20000000000000000000011 /* MasProvider.swift */,
 				A20000000000000000000012 /* NpmProvider.swift */,
 				A20000000000000000000013 /* PipProvider.swift */,
-				A20000000000000000000014 /* GemProvider.swift */,
 				A20000000000000000000015 /* ServerProfile.swift */,
 				A20000000000000000000016 /* ServerProvider.swift */,
 				A20000000000000000000017 /* MacPortsProvider.swift */,
@@ -223,7 +220,6 @@
 				A10000000000000000000011 /* MasProvider.swift in Sources */,
 				A10000000000000000000012 /* NpmProvider.swift in Sources */,
 				A10000000000000000000013 /* PipProvider.swift in Sources */,
-				A10000000000000000000014 /* GemProvider.swift in Sources */,
 				A10000000000000000000015 /* ServerProfile.swift in Sources */,
 				A10000000000000000000016 /* ServerProvider.swift in Sources */,
 				A10000000000000000000017 /* MacPortsProvider.swift in Sources */,

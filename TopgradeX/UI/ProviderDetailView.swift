@@ -4,14 +4,20 @@ struct ProviderDetailView: View {
     let status: ProviderStatus
     let onApply: ([UpdateItem]) -> Void
 
+    @EnvironmentObject var viewModel: DashboardViewModel
     @Environment(\.dismiss) private var dismiss
     @State private var items: [UpdateItem]
     @State private var isApplying: Bool = false
+    @State private var isLoading: Bool = false
 
     init(status: ProviderStatus, onApply: @escaping ([UpdateItem]) -> Void) {
         self.status = status
         self.onApply = onApply
         _items = State(initialValue: status.updates)
+    }
+
+    private var currentStatus: ProviderStatus? {
+        viewModel.items.first { $0.id == status.id }
     }
 
     var body: some View {
@@ -38,24 +44,39 @@ struct ProviderDetailView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
 
-                List {
-                    ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
-                        HStack {
-                            Toggle("", isOn: binding(at: index, for: item))
-                                .labelsHidden()
+                if isLoading {
+                    VStack(spacing: 8) {
+                        ProgressView()
+                            .scaleEffect(0.9)
+                            .tint(.accentColor)
+                        Text("Loading updates…")
+                            .font(.callout)
+                            .foregroundColor(.secondary)
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .transition(.opacity)
+                } else {
+                    List {
+                        Section("Select updates to apply") {
+                            ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
+                                Toggle(isOn: binding(at: index, for: item)) {
+                                    VStack(alignment: .leading, spacing: 2) {
+                                        Text(item.name)
+                                            .font(.body)
+                                        if !item.details.isEmpty {
+                                            Text(item.details)
+                                                .font(.caption)
+                                                .foregroundColor(.secondary)
+                                        }
+                                    }
+                                }
                                 .toggleStyle(.checkbox)
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(item.name)
-                                    .font(.body)
-                                Text(item.details)
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
                             }
-                            Spacer()
                         }
                     }
+                    .listStyle(.inset)
+                    .transition(.opacity.combined(with: .move(edge: .bottom)))
                 }
-                .listStyle(.inset)
 
                 Divider()
 
@@ -73,6 +94,22 @@ struct ProviderDetailView: View {
                 .padding()
             }
             .frame(minWidth: 360, minHeight: 320)
+            .onAppear {
+                if !status.updates.isEmpty {
+                    isLoading = false
+                } else if viewModel.isCheckingUpdates {
+                    isLoading = true
+                }
+            }
+            .onChange(of: viewModel.items) { _, _ in
+                guard let current = currentStatus, !current.updates.isEmpty else { return }
+                if items.isEmpty {
+                    withAnimation(.easeOut(duration: 0.25)) {
+                        items = current.updates
+                        isLoading = false
+                    }
+                }
+            }
 
             if isApplying {
                 LoadingOverlay(text: "Applying updates…", progress: nil)

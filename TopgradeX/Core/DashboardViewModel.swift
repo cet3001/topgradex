@@ -1,6 +1,7 @@
 import SwiftUI
+import ServiceManagement
 
-struct ProviderStatus: Identifiable {
+struct ProviderStatus: Identifiable, Equatable {
     let id: String
     let name: String
     let statusText: String
@@ -27,13 +28,13 @@ final class DashboardViewModel: ObservableObject {
     @AppStorage("provider_mas_enabled") var masEnabled: Bool = true
     @AppStorage("provider_npm_enabled") var npmEnabled: Bool = true
     @AppStorage("provider_pip_enabled") var pipEnabled: Bool = false
-    @AppStorage("provider_gem_enabled") var gemEnabled: Bool = false
     @AppStorage("provider_servers_enabled") var serversEnabled: Bool = true
     @AppStorage("provider_macports_enabled") var macPortsEnabled: Bool = false
     @AppStorage("provider_nix_enabled") var nixEnabled: Bool = false
     @AppStorage("pip_allow_risky_updates") var pipAllowRisky: Bool = false
-    @AppStorage("gem_allow_risky_updates") var gemAllowRisky: Bool = false
     @AppStorage("serverProfilesData") private var serverProfilesData: Data = Data()
+    @AppStorage("launchAtLogin") var launchAtLogin: Bool = false
+    @AppStorage("launchAtLoginConfigured") private var launchAtLoginConfigured: Bool = false
 
     private var allProviders: [UpdateProvider] {
         var list: [UpdateProvider] = []
@@ -41,7 +42,6 @@ final class DashboardViewModel: ObservableObject {
         if masEnabled { list.append(MasProvider()) }
         if npmEnabled { list.append(NpmProvider()) }
         if pipEnabled { list.append(PipProvider(allowRiskyUpdates: pipAllowRisky)) }
-        if gemEnabled { list.append(GemProvider(allowRiskyUpdates: gemAllowRisky)) }
         if serversEnabled && !serverProfiles.isEmpty {
             list.append(ServerProvider(profiles: serverProfiles))
         }
@@ -56,6 +56,11 @@ final class DashboardViewModel: ObservableObject {
 
     init() {
         loadServerProfiles()
+        if !launchAtLoginConfigured {
+            launchAtLogin = true
+            launchAtLoginConfigured = true
+            try? SMAppService.mainApp.register()
+        }
         Task { @MainActor in
             await runAllChecks()
             await maybeRunAutoCheck()
